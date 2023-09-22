@@ -6,6 +6,7 @@ pipeline {
     stage('101') {
       steps {
         echo "Pran"
+        echo "$template"
       }
     }
   }
