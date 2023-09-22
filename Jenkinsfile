@@ -1,3 +1,5 @@
+properties([parameters([choice(choices: ['Promote Vault HA', 'Synchronize Vault HA DRP'], name: 'template')])])
+
 pipeline {
   agent any
   stages {
