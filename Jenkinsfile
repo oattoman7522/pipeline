@@ -1,4 +1,4 @@
-properties([parameters([choice(choices: ['Promote Vault HA', 'Synchronize Vault HA DRP', 'testjenkins'], name: 'template')])])
+properties([parameters([choice(choices: ['cicdfew', 'testjenkins'], name: 'template')])])
 
 pipeline {
   agent any
