@@ -27,9 +27,9 @@ pipeline {
           extraVars: env.EXTRA_VARS,
           jobType: 'run',
           throwExceptionWhenFail: false,
-          towerCredentialsId: 'awx',
+          towerCredentialsId: 'AWX',
           towerLogLevel: 'full',
-          towerServer: 'awx'
+          towerServer: 'AWX'
       }
     }
   }
