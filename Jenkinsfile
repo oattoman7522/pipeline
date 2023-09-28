@@ -1,25 +1,36 @@
-properties([parameters([choice(choices: ['cicdfew', 'testjenkins'], name: 'template')])])
+String awx_template1 = 'Promote Vault HA'
+String awx_template2 = 'Synchronize Vault HA DRP'
 
+properties([parameters([choice(choices: [awx_template1, awx_template2], name: 'template')])])
+
+ 
 pipeline {
   agent any
+  environment {
+    EXTRA_VARS = ""
+  }
   stages {
-    stage('101') {
+    stage('Debug') {
       steps {
-        echo "Pran"
+        script {
+          if (template == awx_template1) {
+            env.EXTRA_VARS = "vault_cluster: 'vault_cluster_drp'"
+          }
+        }
         echo "$template"
+        echo env.EXTRA_VARS
       }
     }
-    stage('awx') {
+    stage('Trigger AWX') {
       steps {
-        ansibleTower(
-              towerServer: 'AWX',  // set server on AWX tower
-              towerCredentialsId: 'AWX',     // User and password
-              templateType: 'job',        // template type
-              jobTemplate: "$template",
-              towerLogLevel: 'full',
-              verbose: true,
-        )      
+        ansibleTower jobTemplate: "$template",
+          extraVars: env.EXTRA_VARS,
+          jobType: 'run',
+          throwExceptionWhenFail: false,
+          towerCredentialsId: 'awx',
+          towerLogLevel: 'full',
+          towerServer: 'awx'
       }
     }
   }
-} 
+}
